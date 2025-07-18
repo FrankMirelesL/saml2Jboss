@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Menú dinámico</title>
+  <style>
+    ul { list-style-type: none; padding-left: 1em; }
+    li { margin: 5px 0; }
+    a { text-decoration: none; color: #2c3e50; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <h2>Menú</h2>
+  <div id="menuContainer"></div>
+
+  <script>
+    fetch('/api/menu')
+      .then(response => response.json())
+      .then(data => {
+        const container = document.getElementById('menuContainer');
+        data.forEach(menu => {
+          const title = document.createElement('h3');
+          title.textContent = menu.name;
+          container.appendChild(title);
+
+          const ul = crearMenu(menu.menuItems);
+          if (ul) container.appendChild(ul);
+        });
+      });
+
+    function crearMenu(items) {
+      if (!items || items.length === 0) return null;
+
+      const ul = document.createElement('ul');
+
+      items.forEach(item => {
+        if (!item.displayable) return; 
+
+        const li = document.createElement('li');
+
+        if (item.action) {
+          const a = document.createElement('a');
+          a.href = item.action;
+          a.textContent = item.name;
+          li.appendChild(a);
+        } else {
+          li.textContent = item.name;
+        }
+
+        const childUl = crearMenu(item.menuItems);
+        if (childUl) li.appendChild(childUl);
+
+        ul.appendChild(li);
+      });
+
+      return ul;
+    }
+  </script>
+</body>
+</html>
