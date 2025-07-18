@@ -1,3 +1,14 @@
+spring:
+  thymeleaf:
+    prefix: classpath:/static/
+    suffix: .html
+    mode: HTML
+    cache: false
+
+  mvc:
+    view:
+      prefix: none
+      suffix: none
 logging:
   level:
     org.springframework.security.saml2: DEBUG
