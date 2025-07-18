@@ -2,14 +2,16 @@ package com.example.demo.controller;
 
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.models.MenuDTO;
 
 @RestController
+@RequestMapping("/api")
 public class MenuController {
 
-    @GetMapping("/api/menu")
+    @GetMapping("/menu")
     public List<MenuDTO> getMenu() {
         return List.of(
             new MenuDTO(1000L, "Administración", null, null, -1L, true, List.of(
